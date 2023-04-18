@@ -14,9 +14,7 @@ function grantAccessTo(roles) {
     try {
       const role = req.body.role;
       if (!role || !roles.includes(role)) {
-        res
-          .status(400)
-          .json({ status: "error", message: "Unable to check access level" });
+        res.status(403).json({ status: "error", message: "Access Denied" });
       }
       //   console.log(req.body);
       next();
