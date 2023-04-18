@@ -25,14 +25,10 @@ possible roles : ['guest', 'user', 'admin', 'superadmin']
 */
 
 // Add the middlewares here
-router.get(
-  "/",
-  grantAccessTo(["guest", "user", "admin", "superadmin"]),
-  getAllUsers
-);
-router.post("/", /*...*/ createUser);
-router.get("/:id", /*...*/ getUserByID);
+router.get("/", grantAccessTo(["user", "admin", "superadmin"]), getAllUsers);
+router.post("/", grantAccessTo(["admin", "superadmin"]), createUser);
+router.get("/:id", grantAccessTo(["user", "admin", "superadmin"]), getUserByID);
 router.patch("/:id", updateUser);
-router.delete("/:id", /*...*/ deleteUser);
+router.delete("/:id", grantAccessTo(["superadmin"]), deleteUser);
 
 module.exports = router;
