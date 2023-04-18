@@ -2,15 +2,15 @@ const express = require("express");
 
 // Importing the controller functions.
 const {
-    getAllUsers,
-    getUserByID,
-    createUser,
-    updateUser,
-    deleteUser
+  getAllUsers,
+  getUserByID,
+  createUser,
+  updateUser,
+  deleteUser,
 } = require("../controllers/userControllers");
 
 // Import the required middlware here.
-const { /*...*/ } = require(/*...*/);
+const { grantAccessTo } = require("../middlewares/grantAccessTo");
 
 const router = express.Router();
 
@@ -24,9 +24,12 @@ Add access control middleware to the existing GET, POST and DELETE routes, as fo
 possible roles : ['guest', 'user', 'admin', 'superadmin']
 */
 
-
 // Add the middlewares here
-router.get("/", /*...*/ getAllUsers);
+router.get(
+  "/",
+  grantAccessTo(["guest", "user", "admin", "superadmin"]),
+  getAllUsers
+);
 router.post("/", /*...*/ createUser);
 router.get("/:id", /*...*/ getUserByID);
 router.patch("/:id", updateUser);

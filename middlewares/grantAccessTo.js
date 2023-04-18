@@ -10,22 +10,34 @@
 */
 
 function grantAccessTo(roles) {
+  return (req, res, next) => {
     try {
-        /*
-        Write your middleware here.
-        Steps: 
-        - Define a middleware function that takes the request, response, and next function as parameters.
-        - Extract the 'role' from req.body.
-        - Check if the required 'role' is present in the array.
-        - Return a valid response if access cannot be granted.
-        */
+      const role = req.body.role;
+      if (!role || !roles.includes(role)) {
+        res
+          .status(400)
+          .json({ status: "error", message: "Unable to check access level" });
+      }
+      //   console.log(req.body);
+      next();
+      /*
+                Write your middleware here.
+                Steps: 
+                - Define a middleware function that takes the request, response, and next function as parameters.
+                - Extract the 'role' from req.body.
+                - Check if the required 'role' is present in the array.
+                - Return a valid response if access cannot be granted.
+                */
     } catch (err) {
-        return res.status(400).json({
-            status: "error",
-            message: "Unable to check access level"
-        })
+      return res.status(400).json({
+        status: "error",
+        message: "Unable to check access level",
+      });
     }
+  };
 }
 
 // Export the middleware function as a module.
-module.exports = { /*...*/ };
+module.exports = {
+  grantAccessTo,
+};
